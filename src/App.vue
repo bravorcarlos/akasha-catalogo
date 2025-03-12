@@ -19,7 +19,7 @@ onMounted(async () => {
 });
 
 watch(route, () => {
-  window.scrollTo({ top: 0});
+  window.scrollTo(0, 0);
 });
 
 
