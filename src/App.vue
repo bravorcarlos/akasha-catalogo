@@ -2,8 +2,11 @@
 import NavBar from './components/common/NavBar.vue';
 import Footer from './components/common/Footer.vue';
 import { RouterView } from 'vue-router';
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useDollarStore } from '@/stores/useExchangeRate'
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 // Usar el store de Dollar
 const dollarStore = useDollarStore()
@@ -13,7 +16,12 @@ onMounted(async () => {
   if (!dollarStore.exchangeRate) {
     await dollarStore.fetchExchangeRate() // Cargar el tipo de cambio globalmente
   }
-})
+});
+
+watch(route, () => {
+  window.scrollTo({ top: 0});
+});
+
 
 </script>
 
