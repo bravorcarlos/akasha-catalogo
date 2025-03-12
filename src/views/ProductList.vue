@@ -1,10 +1,11 @@
 <template>
     <div class="container">
-        <h1 v-if="brandSlug">Productos de {{ brandName }}</h1>
-        <h1 v-else-if="searchTerm">Resultados para "{{ searchTerm }}"</h1>
+        <h1 v-if="brandSlug && !loading" class="text-center">Productos de {{ brandName }}</h1>
+        <h1 v-else-if="searchTerm && !loading">Resultados para "{{ searchTerm }}"</h1>
 
-        <p v-if="loading">Cargando productos...</p>
-        <p v-if="error">{{ error }}</p>
+        <p v-if="loading" class="text-center">Cargando productos...</p>
+        <p v-if="!loading && !brandFound" class="text-center">Marca no encontrada</p>
+        <p v-if="error" class="text-center">{{ error }}</p>
 
         <div v-if="!loading && !error" class="row">
             <ProductCard v-for="product in products" :key="product.id" :product="product" />
@@ -15,7 +16,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue';
+import { computed, watch, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useProducts } from '@/composables/useProducts';
 import ProductCard from '@/components/product/ProductCard.vue';
@@ -30,9 +31,17 @@ const searchTerm = computed(() => route.query.search);
 const page = computed(() => parseInt(route.query.page) || 1);  // Lee la página desde la query, si no existe usa 1
 const { products, loading, error, fetchProducts, totalPages } = useProducts();
 
+// Variable para indicar si la marca existe
+const brandFound = ref(true);
+
 const brandName = computed(() => {
     const brand = brands.value.find((b) => b.slug === brandSlug.value);
-    return brand ? brand.name : 'Marca no encontrada';
+    if (!brand) {
+        brandFound.value = false;  // Marca no encontrada
+        return 'Marca no encontrada';
+    }
+    brandFound.value = true;  // Marca encontrada
+    return brand.name;
 });
 
 watch([brandSlug, searchTerm, page], () => {

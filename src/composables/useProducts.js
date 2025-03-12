@@ -24,7 +24,7 @@ export function useProducts() {
       }
 
       products.value = response.results;
-      totalPages.value = Math.ceil(response.count / 10); // Total de páginas calculado con base en la cantidad de productos y 10 por página
+      totalPages.value = Math.ceil(response.count / 8); // Total de páginas calculado con base en la cantidad de productos y 8 por página
     } catch (err) {
       error.value = 'Error cargando productos';
       console.error(err);

@@ -19,9 +19,20 @@ onMounted(async () => {
 
 <template>
   <NavBar></NavBar>
-  <router-view></router-view>
+  <div class="app-container">
+    <router-view></router-view>
+  </div>
   <Footer></Footer>
 </template>
 
 <style scoped>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la pantalla */
+}
+
+footer {
+  margin-top: auto;
+}
 </style>

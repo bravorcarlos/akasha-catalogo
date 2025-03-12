@@ -18,9 +18,9 @@
         <router-link :to="{ name: 'ProductDetail', params: { slug: product.slug } }" class="text-decoration-none">
             <div class="card h-100">
                 <img :src="product.image" class="card-img-top" alt="Product Image"
-                    style="height: 200px; object-fit: cover;">
+                    style="height: 200px; object-fit: cover;" loading="lazy">
                 <div class="card-body d-flex flex-column">
-                    <h6 class="">{{ product.name.slice(0, 25) }}{{ product.name.length > 20 ? '...' : '' }}</h6>
+                    <h6 class="">{{ product.name.slice(0, 20) }}{{ product.name.length > 20 ? '...' : '' }}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">{{ product.price }}$</h6>
                     <h6 v-if="convertedPrice">{{ convertedPrice }} {{ currencySymbol }}</h6>
                     <h6 v-else>Cargando precio...</h6>
