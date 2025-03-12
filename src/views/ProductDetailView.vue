@@ -3,7 +3,6 @@
         <div class="row">
             <div class="col-md-5 text-center mb-3">
                 <div class="card">
-                    <!-- Mostrar la imagen solo si el producto está cargado -->
                     <img v-if="product.image" :src="product.image" class="img-fluid mt-2 mb-2 mx-auto"
                         style="width: 400px; height: 400px; object-fit: cover;">
                 </div>
@@ -20,7 +19,19 @@
                             <span>{{ product.brand.name }}</span>
                         </router-link>
                     </p>
-                    <p class="fs-5"><b>Precio: </b>{{ product.price }}$ =
+
+                    <!-- Disponibilidad del producto -->
+                    <p>
+                        <b>Disponibilidad: </b>
+                        <span :class="product.availability ? 'text-success fw-bold' : 'text-danger fw-bold'">
+                            {{ product.availability ? 'Disponible' : 'Agotado' }}
+                        </span>
+                    </p>
+
+                    <!-- Precio resaltado -->
+                    <p class="fs-4 price-box">
+                        <b>Precio: </b> 
+                        <span class="price-text">{{ product.price }}$</span> = 
                         <span v-if="product.price && dollarStore.exchangeRate">
                             {{ (product.price * dollarStore.exchangeRate).toFixed(2) }} Bs
                         </span>
@@ -31,7 +42,6 @@
         </div>
     </div>
 
-    <!-- Mostrar un mensaje de carga mientras se obtiene el producto -->
     <div v-else class="text-center mt-5">
         <p>Cargando información del producto...</p>
     </div>
@@ -44,15 +54,26 @@ import { useProducts } from '@/composables/useProducts';
 import { useDollarStore } from '@/stores/useExchangeRate';
 
 const route = useRoute();
-const { product, fetchProduct } = useProducts(); // Usamos fetchProduct
+const { product, fetchProduct } = useProducts();
 const dollarStore = useDollarStore();
 
-// Fetch el producto cuando el componente es montado
 onMounted(async () => {
     await fetchProduct(route.params.slug);
 });
 </script>
 
 <style scoped>
-/* Agrega tus estilos aquí */
+/* Resaltar el precio */
+.price-box {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.price-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #28a745; /* Verde para resaltar el precio */
+}
 </style>

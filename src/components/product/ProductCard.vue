@@ -1,29 +1,24 @@
 <template>
-    <!-- <div class="col-md-3 col-6 mb-5">
-        <router-link :to="{ name: 'ProductDetail', params: { slug: product.slug } }" class="text-decoration-none">
-            <div class="card h-100">
-                <img :src="product.image" class="img-fluid mt-1 mx-auto"
-                    style="width: 250px; height: 250px; object-fit: cover;" loading="lazy">
-                <div class="card-body">
-                    <h6 class="card-title">{{ product.name }}</h6>
-                    <h5>{{ product.price }} $</h5>
-                    <h6 v-if="convertedPrice">{{ convertedPrice }} {{ currencySymbol }}</h6>
-                    <h6 v-else>Cargando precio...</h6>
-                </div>
-            </div>
-        </router-link>
-    </div> -->
-
     <div class="col-md-3 col-6 mb-5">
         <router-link :to="{ name: 'ProductDetail', params: { slug: product.slug } }" class="text-decoration-none">
             <div class="card h-100">
-                <img :src="product.image" class="card-img-top" alt="Product Image"
-                    style="height: 200px; object-fit: cover;" loading="lazy">
+                <div class="image-container" :class="{ 'image-unavailable': !product.availability }">
+                    <img :src="product.image" class="card-img-top" alt="Product Image"
+                        style="height: 200px; object-fit: cover;" loading="lazy">
+                </div>
                 <div class="card-body d-flex flex-column">
-                    <h6 class="">{{ product.name.slice(0, 20) }}{{ product.name.length > 20 ? '...' : '' }}</h6>
+                    <h6 class="product-name">{{ product.name.slice(0, 20) }}{{ product.name.length > 20 ? '...' : '' }}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">{{ product.price }}$</h6>
                     <h6 v-if="convertedPrice">{{ convertedPrice }} {{ currencySymbol }}</h6>
                     <h6 v-else>Cargando precio...</h6>
+
+                    <!-- Disponibilidad -->
+                    <div v-if="product.availability" class="text-success mt-2">
+                        Disponible
+                    </div>
+                    <div v-else class="text-danger mt-2">
+                        No disponible
+                    </div>
                 </div>
             </div>
         </router-link>
@@ -60,8 +55,8 @@ const currencySymbol = 'Bs'
 }
 
 .card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  }
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
 
 .card-body {
   display: flex;
@@ -74,9 +69,12 @@ const currencySymbol = 'Bs'
   object-fit: cover;
 }
 
-.card-title {
-  font-size: 1.25rem;
+.product-name {
+  font-size: 1rem; /* Texto más pequeño para el nombre del producto */
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-subtitle {
@@ -87,5 +85,13 @@ const currencySymbol = 'Bs'
   flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.image-container {
+  position: relative;
+}
+
+.image-unavailable {
+  opacity: 0.5;
 }
 </style>
