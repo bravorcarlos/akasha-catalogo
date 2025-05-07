@@ -1,5 +1,5 @@
 <script setup>
-
+import socials from '@/data/socials.js'
 </script>
 
 <template>
@@ -9,7 +9,7 @@
             <!-- Section: Social media -->
             <section class="mb-4">
                 <!-- Facebook -->
-                <a class="btn btn-link btn-floating btn-lg text-body m-1" href="https://www.facebook.com/profile.php?id=61566932571563&locale=es_LA" role="button">
+                <a v-if="socials.facebook" class="btn btn-link btn-floating btn-lg text-body m-1" :href="socials.facebook" role="button" target="_blank">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                         class="bi bi-facebook icon-custom" viewBox="0 0 16 16">
                         <path
@@ -18,7 +18,7 @@
                 </a>
 
                 <!-- Instagram -->
-                <a class="btn btn-link btn-floating btn-lg text-body m-1" href="https://www.instagram.com/akasha.skincare/" role="button">
+                <a v-if="socials.instagram" class="btn btn-link btn-floating btn-lg text-body m-1" :href="socials.instagram" role="button" target="_blank">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                         class="bi bi-instagram icon-custom" viewBox="0 0 16 16">
                         <path
@@ -27,7 +27,7 @@
                 </a>
 
                 <!-- Whatsapp -->
-                <a class="btn btn-link btn-floating text-body m-1" href="https://wa.me/584121820114" >
+                <a v-if="socials.instagram" class="btn btn-link btn-floating btn-lg text-body m-1" :href="socials.whatsapp" role="button" target="_blank">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                         class="bi bi-whatsapp icon-custom" viewBox="0 0 16 16">
                         <path
@@ -56,5 +56,4 @@
 .icon-custom:hover {
     color: #9a9999;
 }
-
 </style>

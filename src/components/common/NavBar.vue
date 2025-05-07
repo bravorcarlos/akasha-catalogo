@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <!-- Logo -->
             <router-link :to="{name: 'home'}" class="nav-link active">
-                <img src="/images/logo.png" alt="Bootstrap" width="100" height="86">
+                <img src="/images/logo.png" alt="Logo" width="100" height="86">
             </router-link>
 
             <!-- Barra de búsqueda SIEMPRE visible -->
@@ -61,6 +61,17 @@
                             <li><a class="dropdown-item" href="https://wa.me/584248464939">Whatsapp 2</a></li>
                         </ul>
                     </li>
+
+                    <li class="nav-item">
+                        <router-link :to="{name: 'cart'}" class="nav-link">
+                            Bolsa
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-fill icon-custom mb-1" viewBox="0 0 16 16">
+                                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
+                            </svg>
+
+                            ({{ cartStore.totalItems }})
+                        </router-link>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -68,13 +79,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBrands } from '@/composables/useBrands';
+import { useCartStore } from '@/stores/cart'
 
 const searchTerm = ref('');
 const router = useRouter();
 const { brands, loading, error } = useBrands();
+const cartStore = useCartStore()
 
 const searchProducts = () => {
     if (searchTerm.value) {
@@ -91,6 +104,10 @@ const searchProducts = () => {
 .btn-custom:hover {
     background-color: #fba2c8;
     outline: #fba2c8;
+}
+
+.icon-custom {
+    color: #fba2c8;
 }
 
 .search-custom:focus {

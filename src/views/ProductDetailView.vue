@@ -37,6 +37,14 @@
                         </span>
                         <span v-else>N/A</span>
                     </p>
+
+                    <button 
+                        class="btn btn-custom mt-3 text-white"
+                        :disabled="!product.availability"
+                        @click="addToCart"
+                        >
+                        Añadir a la bolsa
+                    </button>
                 </div>
             </div>
         </div>
@@ -52,10 +60,16 @@ import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import { useProducts } from '@/composables/useProducts';
 import { useDollarStore } from '@/stores/useExchangeRate';
+import { useCartStore } from '@/stores/cart'
 
 const route = useRoute();
 const { product, fetchProduct } = useProducts();
 const dollarStore = useDollarStore();
+const cart = useCartStore();
+
+const addToCart = () => {
+  cart.addItem(product.value)
+};
 
 onMounted(async () => {
     await fetchProduct(route.params.slug);
@@ -75,5 +89,9 @@ onMounted(async () => {
     font-size: 1.5rem;
     font-weight: bold;
     color: #28a745; /* Verde para resaltar el precio */
+}
+
+.btn-custom {
+  background-color: #fba2c8;
 }
 </style>
