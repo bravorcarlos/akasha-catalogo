@@ -22,7 +22,7 @@
                     </div>
 
                     <!-- Botón para agregar a la bolsa -->
-                    <button class="btn btn-sm btn-custom mt-3 text-white" @click.stop.prevent="handleAddToCart"
+                    <button class="btn btn-sm btn-custom mt-3 text-white" @click.stop.prevent="handleClick"
                         :disabled="!product.availability">
                         Añadir a la bolsa
                     </button>
@@ -33,34 +33,31 @@
 </template>
 
 <script setup>
-import { useDollarStore } from '@/stores/useExchangeRate'
-import { useCartStore } from '@/stores/cart'
-import { computed } from 'vue'
-import { useToast } from "vue-toastification"
+import { useDollarStore } from '@/stores/useExchangeRate';
+import { computed } from 'vue';
+import { useAddToCart } from '@/composables/useAddToCart';
 
 const props = defineProps({
     product: {
         type: Object,
         required: true
     }
-})
+});
 
-const product = props.product
-const dollarStore = useDollarStore()
-const cartStore = useCartStore()
+const product = props.product;
+const dollarStore = useDollarStore();
 
 const convertedPrice = computed(() => {
     return dollarStore.exchangeRate ? dollarStore.convertToLocalCurrency(product.price) : null
-})
+});
 
-const currencySymbol = 'Bs'
+const currencySymbol = 'Bs';
 
-const toast = useToast()
+const { addToCart } = useAddToCart();
 
-const handleAddToCart = () => {
-    cartStore.addItem(product)
-    toast.success("¡Producto añadido a la bolsa!")
-}
+const handleClick = () => {
+  addToCart(product)
+};
 </script>
 <style scoped>
 .btn-custom {

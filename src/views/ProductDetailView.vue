@@ -41,7 +41,7 @@
                     <button 
                         class="btn btn-custom mt-3 text-white"
                         :disabled="!product.availability"
-                        @click="addToCart"
+                        @click="handleClick"
                         >
                         Añadir a la bolsa
                     </button>
@@ -60,15 +60,16 @@ import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import { useProducts } from '@/composables/useProducts';
 import { useDollarStore } from '@/stores/useExchangeRate';
-import { useCartStore } from '@/stores/cart'
+import { useAddToCart } from '@/composables/useAddToCart';
 
 const route = useRoute();
 const { product, fetchProduct } = useProducts();
 const dollarStore = useDollarStore();
-const cart = useCartStore();
 
-const addToCart = () => {
-  cart.addItem(product.value)
+const { addToCart } = useAddToCart();
+
+const handleClick = () => {
+  addToCart(product.value);
 };
 
 onMounted(async () => {

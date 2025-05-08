@@ -46,3 +46,14 @@ footer {
   margin-top: auto;
 }
 </style>
+
+<style>
+.custom-toast {
+    background-color: #fba2c8 !important;
+    color: white;
+}
+.custom-toast-body {
+    font-size: 16px;
+    color: white;
+}
+</style>
